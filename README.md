@@ -37,7 +37,7 @@ You can find the [trial data](./data/tsar2025_trialdata.jsonl) in our repository
 | 1       | 03.12.2025 | Introduction & NLP Recap   | Organization, the challenge, word embeddings     |
 | 2       | 04.12.2025 | RNNs and LSTMs   | First sequence to sequence neural networks with memory     |
 | 3       | 10.12.2025 | Attentions & Transformers   | Transformer architecture, parallalization in NLP, encoder & decoder blocks     |
-| 4       | 11.12.2025 | Encoder & Decoder Models   | BERT, GPT, T5, BART     |
+| 4       | 11.12.2025 | Transformer Based Models   | BERT, GPT, T5, BART     |
 | 5       | 17.12.2025 | Hackathon / Check-In   |     |
 | 6       | 18.12.2025 | LLM Architecture   | From decoder models to LLMs, the LLM landscape (closed and open source)     |
 | 7       | 07.01.2026 | LLM Engineering   | prompt engineering, retrieval augmented generation (RAG), evaluating LLMs     |
