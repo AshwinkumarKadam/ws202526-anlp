@@ -1,6 +1,6 @@
 import marimo
 
-__generated_with = "0.18.0"
+__generated_with = "0.18.1"
 app = marimo.App(width="medium")
 
 
@@ -51,82 +51,7 @@ def _(nn, torch):
 
     # Example: Create a simple RNN
     rnn_demo = RNN(input_size=50, hidden_size=128, output_size=10)
-    return
-
-
-@app.cell
-def _(nn, torch):
-    # Simple LSTM Example: Sentiment Classification
-    class SimpleLSTMClassifier(nn.Module):
-        def __init__(
-            self,
-            vocab_size,
-            embedding_dim,
-            hidden_dim,
-            output_dim,
-            n_layers=1,
-            dropout=0.5,
-        ):
-            super().__init__()
-            self.embedding = nn.Embedding(vocab_size, embedding_dim)
-            self.lstm = nn.LSTM(
-                embedding_dim,
-                hidden_dim,
-                n_layers,
-                dropout=dropout if n_layers > 1 else 0,
-                batch_first=True,
-            )
-            self.fc = nn.Linear(hidden_dim, output_dim)
-            self.dropout = nn.Dropout(dropout)
-
-        def forward(self, text):
-            # text shape: (batch_size, seq_len)
-            embedded = self.dropout(self.embedding(text))
-            # embedded shape: (batch_size, seq_len, embedding_dim)
-
-            # Pass through LSTM
-            _, (hidden, _) = self.lstm(embedded)
-            # output shape: (batch_size, seq_len, hidden_dim)
-            # hidden shape: (n_layers, batch_size, hidden_dim)
-            # cell shape: (n_layers, batch_size, hidden_dim)
-
-            # Use the final hidden state for classification
-            hidden = self.dropout(hidden[-1])  # Take last layer
-            # hidden shape: (batch_size, hidden_dim)
-
-            return self.fc(hidden)
-
-
-    # Create a simple LSTM classifier
-    VOCAB_SIZE = 10000
-    EMBEDDING_DIM = 100
-    HIDDEN_DIM = 256
-    OUTPUT_DIM = 2  # Binary classification (e.g., positive/negative)
-    N_LAYERS = 2
-    DROPOUT = 0.5
-
-    lstm_classifier = SimpleLSTMClassifier(
-        VOCAB_SIZE, EMBEDDING_DIM, HIDDEN_DIM, OUTPUT_DIM, N_LAYERS, DROPOUT
-    )
-
-    # Example forward pass
-    batch_size = 4
-    seq_len = 10
-    example_input = torch.randint(0, VOCAB_SIZE, (batch_size, seq_len))
-    example_output = lstm_classifier(example_input)
-
-    print(f"LSTM Classifier Created:")
-    print(f"  Vocabulary size: {VOCAB_SIZE:,}")
-    print(f"  Embedding dimension: {EMBEDDING_DIM}")
-    print(f"  Hidden dimension: {HIDDEN_DIM}")
-    print(f"  Number of layers: {N_LAYERS}")
-    print(f"  Output dimension: {OUTPUT_DIM} (binary classification)")
-    print(f"\nExample:")
-    print(f"  Input shape: {example_input.shape} (batch_size, seq_len)")
-    print(f"  Output shape: {example_output.shape} (batch_size, output_dim)")
-    print(
-        f"  Total parameters: {sum(p.numel() for p in lstm_classifier.parameters()):,}"
-    )
+    print(rnn_demo)
     return
 
 
@@ -238,6 +163,82 @@ def _(nn, torch):
 
             return outputs
     return Decoder, Encoder, Seq2Seq
+
+
+@app.cell
+def _(nn, torch):
+    # Simple LSTM Example: Sentiment Classification
+    class SimpleLSTMClassifier(nn.Module):
+        def __init__(
+            self,
+            vocab_size,
+            embedding_dim,
+            hidden_dim,
+            output_dim,
+            n_layers=1,
+            dropout=0.5,
+        ):
+            super().__init__()
+            self.embedding = nn.Embedding(vocab_size, embedding_dim)
+            self.lstm = nn.LSTM(
+                embedding_dim,
+                hidden_dim,
+                n_layers,
+                dropout=dropout if n_layers > 1 else 0,
+                batch_first=True,
+            )
+            self.fc = nn.Linear(hidden_dim, output_dim)
+            self.dropout = nn.Dropout(dropout)
+
+        def forward(self, text):
+            # text shape: (batch_size, seq_len)
+            embedded = self.dropout(self.embedding(text))
+            # embedded shape: (batch_size, seq_len, embedding_dim)
+
+            # Pass through LSTM
+            _, (hidden, _) = self.lstm(embedded)
+            # output shape: (batch_size, seq_len, hidden_dim)
+            # hidden shape: (n_layers, batch_size, hidden_dim)
+            # cell shape: (n_layers, batch_size, hidden_dim)
+
+            # Use the final hidden state for classification
+            hidden = self.dropout(hidden[-1])  # Take last layer
+            # hidden shape: (batch_size, hidden_dim)
+
+            return self.fc(hidden)
+
+
+    # Create a simple LSTM classifier
+    VOCAB_SIZE = 10000
+    EMBEDDING_DIM = 100
+    HIDDEN_DIM = 256
+    OUTPUT_DIM = 2  # Binary classification (e.g., positive/negative)
+    N_LAYERS = 2
+    DROPOUT = 0.5
+
+    lstm_classifier = SimpleLSTMClassifier(
+        VOCAB_SIZE, EMBEDDING_DIM, HIDDEN_DIM, OUTPUT_DIM, N_LAYERS, DROPOUT
+    )
+
+    # Example forward pass
+    batch_size = 4
+    seq_len = 10
+    example_input = torch.randint(0, VOCAB_SIZE, (batch_size, seq_len))
+    example_output = lstm_classifier(example_input)
+
+    print(f"LSTM Classifier Created:")
+    print(f"  Vocabulary size: {VOCAB_SIZE:,}")
+    print(f"  Embedding dimension: {EMBEDDING_DIM}")
+    print(f"  Hidden dimension: {HIDDEN_DIM}")
+    print(f"  Number of layers: {N_LAYERS}")
+    print(f"  Output dimension: {OUTPUT_DIM} (binary classification)")
+    print(f"\nExample:")
+    print(f"  Input shape: {example_input.shape} (batch_size, seq_len)")
+    print(f"  Output shape: {example_output.shape} (batch_size, output_dim)")
+    print(
+        f"  Total parameters: {sum(p.numel() for p in lstm_classifier.parameters()):,}"
+    )
+    return
 
 
 @app.cell
