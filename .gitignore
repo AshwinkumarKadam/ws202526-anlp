@@ -97,3 +97,6 @@ DefaktS_Twitter_DS.jsonl
 __marimo__/
 
 CLAUDE.md
+notebooks/results/*
+chatbot-*.json
+notebooks/fine_tuned_t5_simplification/*
